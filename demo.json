@@ -1,0 +1,105 @@
+{
+    "name": "Ministère",
+    "regions": [
+        {
+            "name": "Region 1",
+            "districts": [
+                {
+                    "name": "District A",
+                    "settlement": "urban",
+                    "quantity": 10,
+                    "fosas": [
+                        {
+                            "name": "fosa AA CS",
+                            "quantity": 1
+                        },
+                        {
+                            "name": "fosa AB CS",
+                            "quantity": 5
+                        },
+                        {
+                            "name": "fosa AC CS",
+                            "quantity": 3
+                        },
+                        {
+                            "name": "fosa AD CS",
+                            "quantity": 1
+                        }
+                    ]
+                },
+                {
+                    "name": "District B",
+                    "quantity": 5,
+                    "settlement": "rural",
+                    "fosas": [
+                        {
+                            "name": "fosa BA CS",
+                            "quantity": 3
+                        },
+                        {
+                            "name": "fosa BB CS",
+                            "quantity": 2
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Region 2",
+            "districts": [
+                {
+                    "name": "District C",
+                    "quantity": 20,
+                    "settlement": "urban",
+                    "fosas": [
+                        {
+                            "name": "fosa CA CS",
+                            "quantity": 2
+                        },
+                        {
+                            "name": "fosa CB CS",
+                            "quantity": 18
+                        }
+                    ]
+                }
+            ],
+            "total": 20
+        },
+        {
+            "name": "Region 3",
+            "districts": [
+                {
+                    "name": "District D",
+                    "quantity": 8,
+                    "settlement": "rural",
+                    "fosas": [
+                        {
+                            "name": "fosa DA CS",
+                            "quantity": 2
+                        },
+                        {
+                            "name": "fosa DB CS",
+                            "quantity": 18
+                        }
+                    ]
+                },
+                {
+                    "name": "District E",
+                    "quantity": 12,
+                    "settlement": "rural",
+                    "fosas": [
+                        {
+                            "name": "fosa EA CS",
+                            "quantity": 2
+                        },
+                        {
+                            "name": "fosa EB CS",
+                            "quantity": 10
+                        }
+                    ]
+                }
+            ],
+            "total": 20
+        }
+    ]
+}
