@@ -1,4 +1,4 @@
-from xlst import ExcelTemplateProcessor
+from xlsxt import ExcelTemplateProcessor
 import json
 
 with open("demo.json", "r", encoding="utf-8") as file:
