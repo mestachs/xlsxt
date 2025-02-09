@@ -17,21 +17,22 @@ you get an instantiated template
 ![image](https://github.com/user-attachments/assets/3f1217b1-5e19-4551-a56a-3c31ea1cef5d)
 
 
-## Installing and running
+## Dev : Installing and running
 
 ```
 uv venv --python 3.11
 source ./.venv/bin/activate
-uv pip install -r requirements.txt
-uv run python demo.py
+uv run python examples/demo.py
 # check output.xlsx will use demo.json
-uv run python demo.py loadtest
+uv run python examples/demo.py loadtest
 # check output.xlsx will use a much larger generated context
+uv run pytest
+# for the moment not test suite, except a failing test
 ```
 
 ## Todo
 
-- [ ] make it a proper python package, that can be published or at least used from git pip install
+- [x] make it a proper python package, that can be published or at least used from git pip install
 - [ ] support other cell formats
    - [ ] date
    - [x] hyperlink (notation `https://...|label to be shown`)
@@ -51,7 +52,9 @@ uv run python demo.py loadtest
 - [ ] play with wasm and offer a live preview ? or allow the sheet to be in googlesheet ?
 - [ ] have a better code base and setup
   - [ ] currently a huge file without too much thought
-  - [ ] investigate a way to unit/integration test the damn thing : see comparator
+  - [ ] investigate a way to unit/integration test the damn thing : 
+    - [ ] see comparator
+    - [ ] see `uv run pytest`
   - [ ] github actions
       
 ## Inspirations
