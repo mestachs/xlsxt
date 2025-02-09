@@ -82,6 +82,7 @@ other similar projects
     - looks okish but haven't tried, 
       - no real test suite, only examples
       - comments/docs in chinese (I guess)
+    - seem to have a port of in nodejs/browser https://github.com/zhangyu836/node-xlsx-template
 
 note most have limitation in "translating" formulas, which is one the thing I struggle with to avoid "string concatenation".
 
