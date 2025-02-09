@@ -1,5 +1,6 @@
 {
     "name": "Ministère",
+    "sample_url": "https://google.com",
     "regions": [
         {
             "name": "Region 1",
@@ -95,6 +96,21 @@
                         {
                             "name": "fosa EB CS",
                             "quantity": 10
+                        }
+                    ]
+                },
+                {
+                    "name": "District F",
+                    "quantity": 12,
+                    "settlement": "rural",
+                    "fosas": [
+                        {
+                            "name": "fosa FA CS",
+                            "quantity": 3
+                        },
+                        {
+                            "name": "fosa FB CS",
+                            "quantity": 9
                         }
                     ]
                 }

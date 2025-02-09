@@ -1,4 +1,5 @@
 from xlsxt import ExcelTemplateProcessor
+from comparator import compare_workbooks
 import json
 import string
 import random
@@ -61,6 +62,7 @@ if generate_test_data:
     ):
         return {
             "name": "Ministère",
+            "sample_url": "https://google.com",
             "regions": generate_regions(
                 region_count, districts_per_region, fosas_per_district
             ),
@@ -74,3 +76,14 @@ else:
 xlst = ExcelTemplateProcessor("demo.xlsx")
 xlst.process_template(context)
 xlst.save("output.xlsx")
+
+print("****** Diffing with expected output_expected.xlsx (just value and formulas)")
+
+diffs = compare_workbooks("output_expected.xlsx", "output.xlsx", compare_style=False)
+
+for sheet_and_row, diff in diffs.items():
+    print("sheet", sheet_and_row[0], "line:",sheet_and_row[1])
+    print("\t", diff)
+
+if diffs:
+    raise Exception("some diff with expected rendering")

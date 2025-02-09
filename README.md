@@ -34,7 +34,7 @@ uv run python demo.py loadtest
 - [ ] make it a proper python package, that can be published or at least used from git pip install
 - [ ] support other cell formats
    - [ ] date
-   - [ ] hyperlink
+   - [x] hyperlink (notation `https://...|label to be shown`)
    - [ ] ... (I don't know much about excel)
 - [ ] make it a cli taking xlsx and json (file or stdin) and output file destination
 - [ ] investigate better error handling
@@ -42,15 +42,16 @@ uv run python demo.py loadtest
    - [ ] a more "lenient" mode where the cell is colored red and extras sheets with errors info ?
 - [ ] investigate easier formula authoring for "sum" and current row calculations
    - [ ] something where you really use excel formulas and subtitute/transpose the ranges
-        - would be great for sub totals
-        - get autocompletion and validation from the formula editor while authoring, not when previewing
+        - [x] for same line
+        - [ ] for a vertical group of items : would be great for sub totals
+        - goal : get autocompletion and validation from the formula editor while authoring, not when previewing
 - [ ] document post processing and add some extra post processing
    - [ ] hide a sheet
    - [ ] delete a sheet (ex used for config )
 - [ ] play with wasm and offer a live preview ? or allow the sheet to be in googlesheet ?
 - [ ] have a better code base and setup
   - [ ] currently a huge file without too much thought
-  - [ ] investigate a way to unit/integration test the damn thing
+  - [ ] investigate a way to unit/integration test the damn thing : see comparator
   - [ ] github actions
       
 ## Inspirations

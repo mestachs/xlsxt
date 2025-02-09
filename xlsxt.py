@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 from copy import copy
 import re
 from jinja2 import Environment
-
+from openpyxl.formula.translate import Translator
 
 def concat(*args):
     return "".join(map(str, args))
@@ -159,13 +159,36 @@ class ExcelTemplateProcessor:
             if "{{end}}" in str(row_values):
                 return output_row
 
-            for col, cell in enumerate(template_ws[row], 1):
-                output_cell = output_ws.cell(row=output_row, column=col)
-                self._copy_cell_format(cell, output_cell)
-                if cell.value and "{{" in str(cell.value):
-                    output_cell.value = self._render_template(str(cell.value), context)
+            for col, source_cell in enumerate(template_ws[row], 1):
+                target_cell = output_ws.cell(row=output_row, column=col)
+                self._copy_cell_format(source_cell, target_cell)
+
+                if source_cell.value and "{{" in str(source_cell.value):
+                    target_cell.value = self._render_template(str(source_cell.value), context)
                 else:
-                    output_cell.value = cell.value
+                    target_cell.value = source_cell.value
+
+                if source_cell.data_type == "f":  # Copy formula if present
+                    if source_cell.value:
+                        formula_original = "" + source_cell.value
+                        source_cell.coordinate
+                        target_cell.value = Translator(
+                            source_cell.value, origin=source_cell.coordinate
+                        ).translate_formula(target_cell.coordinate)   
+                        ## NEED more that
+                        # if the range should be "extended" or "reduced" based on start_row and template_start_row?
+                        # works not bad if the formula is on the same line
+                        # print("formula_original",formula_original," => ", target_cell.value)             
+
+                try:
+                    if "https://" in target_cell.value or "http://" in target_cell.value:
+                        components = target_cell.value.split("|")
+                        target_cell.value = (
+                            components[1] if len(components) > 1 else components[0]
+                        )
+                        target_cell.hyperlink = components[0]
+                except:
+                    pass                    
 
             output_row += 1
             row += 1
