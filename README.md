@@ -53,3 +53,6 @@ uv run python demo.py loadtest
   - [ ] investigate a way to unit/integration test the damn thing
   - [ ] github actions
       
+## Inspirations
+
+this project is heavily inspired by https://github.com/ivahaev/go-xlsx-templater
