@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Command to run when files change
+CMD="python demo.py"
+
+# Initial run
+$CMD
+
+# Watch for changes
+while inotifywait -e modify,create,delete $(find . -type f -name "*.py") demo.xlsx; do
+    echo "Change detected. Restarting..."
+    $CMD
+done

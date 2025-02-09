@@ -24,4 +24,7 @@ uv venv --python 3.11
 source ./.venv/bin/activate
 uv pip install -r requirements.txt
 uv run python demo.py
+# check output.xlsx will use demo.json
+uv run python demo.py loadtest
+# check output.xlsx will use a much larger generated context
 ```
