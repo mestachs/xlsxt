@@ -68,11 +68,14 @@ other similar projects
     - js commercial
   - xlsx-templater
     - https://github.com/yangguichun/xlsx-templater
+    - js
     - looks compatible with some of the "commercial" 
   - xltpl
     - https://github.com/zhangyu836/xltpl
     - https://pypi.org/project/xltpl/#history
-    - python 
+    - python
+    - seem to support more "jinja" syntax like if elif
+      - ![image](https://github.com/user-attachments/assets/5e0a5a8f-a7bf-42d8-b131-95161cd117fd)
     - looks okish but haven't tried, 
       - no real test suite, only examples
       - comments/docs in chinese (I guess)
