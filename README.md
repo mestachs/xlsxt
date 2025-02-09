@@ -36,6 +36,7 @@ uv run python demo.py loadtest
    - [ ] date
    - [ ] hyperlink
    - [ ] ... (I don't know much about excel)
+- [ ] make it a cli taking xlsx and json (file or stdin) and output file destination
 - [ ] investigate better error handling
    - [ ] (more context source line in the template, cell coordinates, formulas, perhaps a did you mean ?)
    - [ ] a more "lenient" mode where the cell is colored red and extras sheets with errors info ?
