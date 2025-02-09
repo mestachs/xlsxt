@@ -57,3 +57,26 @@ uv run python demo.py loadtest
 ## Inspirations
 
 this project is heavily inspired by https://github.com/ivahaev/go-xlsx-templater
+
+other similar projects 
+  - xlsx-template
+    - https://github.com/optilude/xlsx-template/
+    - js 
+    - looks limited in term of tables/nesting
+  - docxtemplater
+    - https://docxtemplater.com/modules/xlsx/#limitations 
+    - js commercial
+  - xlsx-templater
+    - https://github.com/yangguichun/xlsx-templater
+    - looks compatible with some of the "commercial" 
+  - xltpl
+    - https://github.com/zhangyu836/xltpl
+    - https://pypi.org/project/xltpl/#history
+    - python 
+    - looks okish but haven't tried, 
+      - no real test suite, only examples
+      - comments/docs in chinese (I guess)
+
+note most have limitation in "translating" formulas, which is one the thing I struggle with to avoid "string concatenation".
+
+in the more advanced things I see they talk about data validations in excel
