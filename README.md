@@ -12,7 +12,7 @@ and some nested/structured data
 
 ![image](https://github.com/user-attachments/assets/5d7932f6-f7e3-48ef-b13a-8d2876794708)
 
-you can an instantiated template
+you get an instantiated template
 
 ![image](https://github.com/user-attachments/assets/3f1217b1-5e19-4551-a56a-3c31ea1cef5d)
 
@@ -40,7 +40,9 @@ uv run python demo.py loadtest
    - [ ] (more context source line in the template, cell coordinates, formulas, perhaps a did you mean ?)
    - [ ] a more "lenient" mode where the cell is colored red and extras sheets with errors info ?
 - [ ] investigate easier formula authoring for "sum" and current row calculations
-   - [ ] something where you really use excel formulas and subtitute/transpose the ranges (would be great for sub
+   - [ ] something where you really use excel formulas and subtitute/transpose the ranges
+        - would be great for sub totals
+        - get autocompletion and validation from the formula editor while authoring, not when previewing
 - [ ] document post processing and add some extra post processing
    - [ ] hide a sheet
    - [ ] delete a sheet (ex used for config )
