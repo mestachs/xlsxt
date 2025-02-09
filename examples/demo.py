@@ -1,5 +1,4 @@
-from xlsxt import ExcelTemplateProcessor
-from comparator import compare_workbooks
+import xlsxt 
 import json
 import string
 import random
@@ -70,16 +69,16 @@ if generate_test_data:
 
     context = generate_test_data()
 else:
-    with open("demo.json", "r", encoding="utf-8") as file:
+    with open("./examples/demo.json", "r", encoding="utf-8") as file:
         context = json.load(file)
 
-xlst = ExcelTemplateProcessor("demo.xlsx")
+xlst = xlsxt.ExcelTemplateProcessor("./examples/demo.xlsx")
 xlst.process_template(context)
-xlst.save("output.xlsx")
+xlst.save("./examples/output.xlsx")
 
 print("****** Diffing with expected output_expected.xlsx (just value and formulas)")
 
-diffs = compare_workbooks("output_expected.xlsx", "output.xlsx", compare_style=False)
+diffs = xlsxt.compare_workbooks("./examples/output_expected.xlsx", "./examples/output.xlsx", compare_style=False)
 
 for sheet_and_row, diff in diffs.items():
     print("sheet", sheet_and_row[0], "line:",sheet_and_row[1])
