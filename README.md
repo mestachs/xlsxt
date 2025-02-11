@@ -83,7 +83,8 @@ other similar projects
       - no real test suite, only examples
       - comments/docs in chinese (I guess)
     - seem to have a port of in nodejs/browser https://github.com/zhangyu836/node-xlsx-template
-
+      - but the notation doesn't look 100% the same
+  
 note most have limitation in "translating" formulas, which is one the thing I struggle with to avoid "string concatenation".
 
 in the more advanced things I see they talk about data validations in excel

@@ -1,8 +1,11 @@
 from openpyxl import load_workbook
+from openpyxl.worksheet.formula import ArrayFormula
+import jinja2
 from copy import copy
 import re
 from jinja2 import Environment
 from openpyxl.formula.translate import Translator
+from openpyxl.utils import get_column_letter
 
 def concat(*args):
     return "".join(map(str, args))
@@ -11,14 +14,23 @@ def concat(*args):
 CELL_ENV = Environment()  # No loader specified
 CELL_ENV.globals["CONCAT"] = concat
 
+template_cache = {}
+
+def get_cached_template(template_string):
+    if template_string not in template_cache:
+        template_cache[template_string] = CELL_ENV.from_string(template_string)
+    return template_cache[template_string]
 
 class ExcelTemplateProcessor:
     def __init__(self, template_path):
         self.template_wb = load_workbook(template_path)
         self.output_wb = load_workbook(template_path)
 
-    def process_template(self, context):
+    def process_template(self, context, only_sheets =[]):
         for sheet_name in self.template_wb.sheetnames:
+            if only_sheets and sheet_name not in only_sheets:
+                print("skipped")
+                continue
             print("****** Processing sheet", sheet_name)
             if sheet_name.startswith("__"):
                 print("skipped")
@@ -105,6 +117,7 @@ class ExcelTemplateProcessor:
         self, template_ws, output_ws, context, start_row=1, depth=0, output_row=1
     ):
         row = start_row
+        already_logged_errors = {}
 
         while row <= template_ws.max_row:
             row_values = [
@@ -162,23 +175,47 @@ class ExcelTemplateProcessor:
             for col, source_cell in enumerate(template_ws[row], 1):
                 target_cell = output_ws.cell(row=output_row, column=col)
                 self._copy_cell_format(source_cell, target_cell)
+                try: 
+                    if source_cell.value and "{{" in str(source_cell.value):
+                        context["current_column"] = get_column_letter(target_cell.column)
+                        target_cell.value = self._render_template(str(source_cell.value), context)
+                    else:
+                        target_cell.value = source_cell.value
+                except jinja2.exceptions.TemplateSyntaxError as e:
+                    print(f"Cell {source_cell.value} see template : {source_cell.coordinate}, target: {target_cell.coordinate} Error: {e}")  # Catch and print the error
+                    raise e
 
-                if source_cell.value and "{{" in str(source_cell.value):
-                    target_cell.value = self._render_template(str(source_cell.value), context)
-                else:
-                    target_cell.value = source_cell.value
+                except AttributeError as e:
+                    if source_cell.coordinate != target_cell.coordinate:
+                        print(f"Cell {output_row} see template : {source_cell.coordinate}, target: {target_cell.coordinate} Error: {e}")  # Catch and print the error
+                    
 
                 if source_cell.data_type == "f":  # Copy formula if present
-                    if source_cell.value:
-                        formula_original = "" + source_cell.value
-                        source_cell.coordinate
-                        target_cell.value = Translator(
-                            source_cell.value, origin=source_cell.coordinate
-                        ).translate_formula(target_cell.coordinate)   
+                    if isinstance(source_cell.value, str) and source_cell.value:
+                        try:
+                            formula_original = str(source_cell.value)
+                            source_cell.coordinate
+                            target_cell.value = Translator(
+                                source_cell.value, origin=source_cell.coordinate
+                            ).translate_formula(target_cell.coordinate)   
+                        except Exception as e:                            
+                            print(f"Cell {output_row} see template : {source_cell.coordinate}, target: {target_cell.coordinate} Error: {e}")  # Catch and print the error
                         ## NEED more that
                         # if the range should be "extended" or "reduced" based on start_row and template_start_row?
                         # works not bad if the formula is on the same line
-                        # print("formula_original",formula_original," => ", target_cell.value)             
+                        # print("formula_original",formula_original," => ", target_cell.value)  
+                        # from openpyxl.worksheet.formula import ArrayFormula
+                        # ws["C1"] = ArrayFormula("C1:C5", "=SUM(A1:A5*B1:B5)")           
+                    else:
+                        formula_range = source_cell.value.ref  # e.g., "A1:A3"
+                        formula_text = source_cell.value.text    # e.g., "=TRANSPOSE(A1:A3)"                        
+                        
+                        translated_range = Translator("="+formula_range, origin=source_cell.coordinate).translate_formula(target_cell.coordinate)[1:]
+                        # Use Translator to shift to a new cell (manually adjust if needed)
+                        translated_formula = Translator(formula_text, origin=source_cell.coordinate).translate_formula(target_cell.coordinate)
+                        # Create new transposed ArrayFormula
+                        new_array_formula = ArrayFormula(translated_range, translated_formula)
+                        target_cell.value = new_array_formula
 
                 try:
                     if "https://" in target_cell.value or "http://" in target_cell.value:
@@ -223,7 +260,7 @@ class ExcelTemplateProcessor:
             .replace("‘", "'")
             .replace("’", "'")
         )
-        template = CELL_ENV.from_string(rawtemplate)
+        template = get_cached_template(rawtemplate)
         rendered = template.render(context)
         # print(template,rendered)
         return self._transform_value(rendered)
